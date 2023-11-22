@@ -51,6 +51,7 @@ export const registrarUsuario = (usuario, senha, admin, sucesso, erro) => {
             
             cookies.set('jwt_auth', token, {
                 expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
+                sameSite: 'strict'
             });
 
             sucesso(unique_name, roles);
@@ -67,6 +68,7 @@ export const registrarUsuario = (usuario, senha, admin, sucesso, erro) => {
             
             cookies.set('jwt_auth', token, {
                 expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
+                sameSite: 'strict'
             });
 
             sucesso(unique_name, roles);
@@ -87,6 +89,8 @@ export const login = (usuario, senha, sucesso, erro) => {
 
         cookies.set('jwt_auth', token, {
             expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
+            sameSite: 'strict'
+
         });
 
         sucesso(unique_name, roles);
@@ -95,7 +99,7 @@ export const login = (usuario, senha, sucesso, erro) => {
 
 
 export const logout = () => {
-    cookies.remove('jwt_auth');
+    cookies.remove('jwt_auth', { sameSite: 'strict' });
     localStorage.removeItem('usuario_nome');
     localStorage.removeItem('usuario_permissao');
 };

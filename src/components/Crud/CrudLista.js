@@ -28,7 +28,7 @@ const CrudLista = (props) => {
     const propriedades = props.configCampos.propriedades;
     return (
         <div>
-            <table class="table table-striped">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         {
@@ -48,9 +48,9 @@ const CrudLista = (props) => {
                                         })
                                     }
                                     <td>
-                                        <Link to={`/${props.entidade}/${CrudAcao.consultar}/${obj.id}`} class="btn btn-secondary">Consultar</Link>
-                                        <Link to={`/${props.entidade}/${CrudAcao.alterar}/${obj.id}`}class="btn btn-warning">Alterar</Link>
-                                        <Link to={`/${props.entidade}/${CrudAcao.excluir}/${obj.id}`}class="btn btn-danger">Excluir</Link>
+                                        <Link to={`/${props.entidade}/${CrudAcao.consultar}/${obj.id}`} className="btn btn-secondary">Consultar</Link>
+                                        <Link to={`/${props.entidade}/${CrudAcao.alterar}/${obj.id}`}className="btn btn-warning">Alterar</Link>
+                                        <Link to={`/${props.entidade}/${CrudAcao.excluir}/${obj.id}`}className="btn btn-danger">Excluir</Link>
                                     </td>
                                 </tr>
                             )
