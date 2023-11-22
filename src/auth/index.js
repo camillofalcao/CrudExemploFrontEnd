@@ -1,6 +1,6 @@
 import Cookies from 'universal-cookie';
 import {jwtDecode} from 'jwt-decode';
-import { apiPost } from '../apis';
+import { apiPost, apiAuthPost } from '../apis';
 
 const cookies = new Cookies();
 
@@ -39,21 +39,39 @@ export const usuarioPossuiPermissao = (permissao) => {
 
 export const registrarUsuario = (usuario, senha, admin, sucesso, erro) => {
     
-    apiPost('usuario/criar' + (admin ? 'admin' : ''), {Email: usuario, Password: senha}, (result) => {
-        const token = result;
-        const decoded = jwtDecode(token);
+    if (admin) {
+        apiAuthPost('usuario/criaradmin', {Email: usuario, Password: senha}, (result) => {
+            const token = result;
+            const decoded = jwtDecode(token);
 
-        const {unique_name, roles} = decoded;
+            const {unique_name, roles} = decoded;
 
-        localStorage.setItem('usuario_nome', unique_name);
-        localStorage.setItem('usuario_permissao', roles);
-        
-        cookies.set('jwt_auth', token, {
-            expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
-        });
+            localStorage.setItem('usuario_nome', unique_name);
+            localStorage.setItem('usuario_permissao', roles);
+            
+            cookies.set('jwt_auth', token, {
+                expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
+            });
 
-        sucesso(unique_name, roles);
-    }, erro);    
+            sucesso(unique_name, roles);
+        }, erro);
+    } else {
+        apiPost('usuario/criar', {Email: usuario, Password: senha}, (result) => {
+            const token = result;
+            const decoded = jwtDecode(token);
+
+            const {unique_name, roles} = decoded;
+
+            localStorage.setItem('usuario_nome', unique_name);
+            localStorage.setItem('usuario_permissao', roles);
+            
+            cookies.set('jwt_auth', token, {
+                expires: new Date(decoded.exp * 1000), //de segundos para milisegundos
+            });
+
+            sucesso(unique_name, roles);
+        }, erro);
+    }
 };
 
 export const login = (usuario, senha, sucesso, erro) => {
